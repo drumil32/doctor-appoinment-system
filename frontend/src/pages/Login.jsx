@@ -3,13 +3,14 @@ import { Form, Input, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ setCookies }) => {
     const navigate = useNavigate();
     const onFinishHandler = async (values) => {
         try {
             const res = await axios.post('/api/user/login', values);
             console.log(res.data);
             if (res.data.success) {
+                setCookies('token', res.data.token);
                 message.success('registerd successfully!');
                 navigate('/')
             } else {
