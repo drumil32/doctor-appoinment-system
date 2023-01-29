@@ -2,12 +2,17 @@ import React from 'react';
 import { Form, Input, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { showLoading, hideLoading } from '../redux/features/alertSlice';
 
 const Login = ({ setCookies }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const onFinishHandler = async (values) => {
         try {
+            dispatch(showLoading());
             const res = await axios.post('/api/user/login', values);
+            dispatch(hideLoading());
             console.log(res.data);
             if (res.data.success) {
                 setCookies('token', res.data.token);
@@ -17,6 +22,7 @@ const Login = ({ setCookies }) => {
                 message.error(res.data.message);
             }
         } catch (error) {
+            dispatch(hideLoading());
             message.error('some thing went wrong');
         }
     }
