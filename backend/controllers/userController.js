@@ -64,7 +64,7 @@ const registerController = async (req, res) => {
     }
 }
 
-const getUserData = async (req, res) => {
+const getUserDataController = async (req, res) => {
     try {
         const user = await userModel.findById({ _id: req.body.userId });
         user.password = undefined;
@@ -90,7 +90,7 @@ const getUserData = async (req, res) => {
     }
 }
 
-const applyDoctor = async (req, res) => {
+const applyDoctorController = async (req, res) => {
     try {
         const user = req.body;
         const checkDoctor = await doctorModel.findOne({ $or: [{ email: user.email }, { phone: user.phone }] });
@@ -131,4 +131,27 @@ const applyDoctor = async (req, res) => {
     }
 }
 
-module.exports = { loginController, registerController, getUserData, applyDoctor }
+const getAllNotificationController = async (req, res) => {
+    try {
+        const user = await userModel.findById({ _id: req.body.userId });
+        const seennotifications = user.seennotifications;
+        const notifications = user.notifications;
+        seennotifications.push(...notifications);
+        user.seennotifications = notifications;
+        const updatedUser = await user.save();
+        res.status(200).send({
+            success: true,
+            message: 'all notifactions marked as read',
+            user: updatedUser
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            error,
+            message: 'error while fetching notifications'
+        })
+    }
+}
+
+module.exports = { loginController, registerController, getUserDataController, applyDoctorController, getAllNotificationController }
