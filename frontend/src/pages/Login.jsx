@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { showLoading, hideLoading } from '../redux/features/alertSlice';
+import { setUser } from '../redux/features/userSlice';
 
 const Login = ({ setCookies }) => {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Login = ({ setCookies }) => {
             console.log(res.data);
             if (res.data.success) {
                 setCookies('token', res.data.token);
+                // dispatch(setUser(res.data.user));
                 message.success('registerd successfully!');
                 navigate('/')
             } else {

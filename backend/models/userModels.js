@@ -13,6 +13,22 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, 'password is required'],
     },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
+    isDoctor: {
+        type: Boolean,
+        default: false,
+    },
+    notifications: {
+        type: Array,
+        default: []
+    },
+    seennotifications: {
+        type: Array,
+        default: []
+    }
 });
 
 module.exports = mongoose.model('user', userSchema);

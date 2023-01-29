@@ -65,7 +65,10 @@ const registerController = async (req, res) => {
 
 const getUserData = async (req, res) => {
     try {
-        const user = await userModel.findOne({ _id: req.body.userId });
+        const user = await userModel.findById({ _id: req.body.userId });
+        user.password = undefined;
+        // delete user.password;
+        // console.log(user)
         if (!user) {
             res.status(200).send({
                 message: 'user not found',
@@ -73,10 +76,7 @@ const getUserData = async (req, res) => {
             });
         } else {
             res.status(200).send({
-                data: {
-                    name: user.name,
-                    email: user.email
-                },
+                user: user,
                 success: true
             })
         }

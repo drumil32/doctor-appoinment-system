@@ -8,6 +8,8 @@ import NotFound from "./pages/NotFound";
 import { useCookies } from 'react-cookie';
 import Spinner from "./components/Spinner";
 import { useSelector } from "react-redux";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 const App = () => {
   const { loading } = useSelector(state => state.alerts)
@@ -25,9 +27,30 @@ const App = () => {
       <BrowserRouter>
         {loading && <Spinner />}
         <Routes>
-          <Route path="/" element={<Home cookies={cookies} />} />
-          <Route path="/login" element={<Login setCookies={handleSetCookies} />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
+                <Home cookies={cookies} removeCookies={handleRemoveCookies} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute cookies={cookies}>
+                <Login setCookies={handleSetCookies} />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute cookies={cookies} >
+                <Register />
+              </PublicRoute>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

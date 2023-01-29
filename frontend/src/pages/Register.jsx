@@ -8,7 +8,7 @@ import { showLoading, hideLoading } from '../redux/features/alertSlice';
 
 const Register = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch
+    const dispatch = useDispatch();
     const onFinishHandler = async (values) => {
         try {
             dispatch(showLoading());
