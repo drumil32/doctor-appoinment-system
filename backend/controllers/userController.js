@@ -1,4 +1,5 @@
 const userModel = require('../models/userModels');
+const doctorModel = require('../models/doctorModels');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
@@ -88,4 +89,46 @@ const getUserData = async (req, res) => {
         })
     }
 }
-module.exports = { loginController, registerController, getUserData }
+
+const applyDoctor = async (req, res) => {
+    try {
+        const user = req.body;
+        const checkDoctor = await doctorModel.findOne({ $or: [{ email: user.email }, { phone: user.phone }] });
+        if (checkDoctor) {
+            return res.status(200).send({
+                message: 'User Already Exists',
+                success: false
+            });
+        } else {
+            const newDoctor = new doctorModel(user);
+            const obj = await newDoctor.save();
+            console.log(obj)
+            const adminUser = await userModel.findOne({ isAdmin: true });
+            console.log(adminUser)
+            const notifications = adminUser.notifications;
+            notifications.push({
+                type: 'apply-doctor-request',
+                message: `${newDoctor.firstName} ${newDoctor.lastName}`,
+                data: {
+                    doctorId: newDoctor._id,
+                    name: newDoctor.firstName + " " + newDoctor.lastName,
+                    onClickPath: '/admin/doctors'
+                }
+            });
+            await userModel.findByIdAndUpdate(adminUser._id, { notifications });
+            res.status(201).send({
+                success: true,
+                message: 'Doctor acount applied successfully'
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            error,
+            message: 'error while applying for doctor'
+        })
+    }
+}
+
+module.exports = { loginController, registerController, getUserData, applyDoctor }

@@ -10,6 +10,7 @@ import Spinner from "./components/Spinner";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
+import ApplyDoctor from "./pages/ApplyDoctor";
 
 const App = () => {
   const { loading } = useSelector(state => state.alerts)
@@ -32,6 +33,14 @@ const App = () => {
             element={
               <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
                 <Home cookies={cookies} removeCookies={handleRemoveCookies} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/apply-doctor"
+            element={
+              <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
+                <ApplyDoctor cookies={cookies} removeCookies={handleRemoveCookies} />
               </ProtectedRoute>
             }
           />

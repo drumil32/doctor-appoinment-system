@@ -4,6 +4,7 @@ import { adminMenu, userMenu } from "./data";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../redux/features/userSlice";
+import { Badge } from "antd";
 
 const Layout = ({ children, removeCookies }) => {
     const { user } = useSelector((state) => state.user);
@@ -48,7 +49,9 @@ const Layout = ({ children, removeCookies }) => {
                     <div className="content">
                         <div className="header">
                             <div className="header-content">
-                                <i className="fa-solid fa-bell"></i>
+                                <Badge count={user && user.notifications.length}>
+                                    <i className="fa-solid fa-bell"></i>
+                                </Badge>
                                 <Link to="/profile">{user?.name}</Link>
                             </div>
                         </div>

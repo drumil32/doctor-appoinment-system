@@ -17,7 +17,6 @@ const Login = ({ setCookies }) => {
             console.log(res.data);
             if (res.data.success) {
                 setCookies('token', res.data.token);
-                // dispatch(setUser(res.data.user));
                 message.success('registerd successfully!');
                 navigate('/')
             } else {
