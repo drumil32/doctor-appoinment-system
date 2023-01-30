@@ -12,6 +12,32 @@ const Doctors = ({ cookies, removeCookies }) => {
 
     const dispatch = useDispatch();
 
+    const handleAccountStats = async (doctorId, status) => {
+        const { token } = cookies;
+        try {
+            const res = await axios.post('/api/admin/change-account-status', {
+                doctorId,
+                status
+            }, {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            });
+            dispatch(hideLoading());
+            if (res.data.success) {
+                message.success(res.data.message);
+                console.log(res.data.user)
+                window.location.reload();
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(hideLoading());
+            message.error('some thing went wrong');
+        }
+    }
+
     useEffect(() => {
         const { token } = cookies;
         const fetchData = async () => {
@@ -61,9 +87,9 @@ const Doctors = ({ cookies, removeCookies }) => {
             render: (text, record) => (
                 <div className="d-flex">
                     {record.status === "pending" ? (
-                        <button className="btn btn-success">Approve</button>
+                        <button className="btn btn-success" onClick={() => { handleAccountStats(record._id, 'approved') }}>Approve</button>
                     ) : (
-                        <button className="btn btn-danger">Reject</button>
+                        <button className="btn btn-danger" onClick={() => { handleAccountStats(record._id, 'pending') }}>Reject</button>
                     )}
                 </div>
             ),

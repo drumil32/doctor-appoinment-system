@@ -95,8 +95,17 @@ const applyDoctorController = async (req, res) => {
         const user = req.body;
         const checkDoctor = await doctorModel.findOne({ $or: [{ userId: req.body.userId }, { email: user.email }, { phone: user.phone }] });
         if (checkDoctor) {
+            var message = '';
+            if (checkDoctor.userId === req.body.userId) {
+                if (checkDoctor.status === 'approved')
+                    message = 'your request is already accepted';
+                else
+                    message = 'you are already applied';
+            } else {
+                message = 'emailid and contact number is already exists please give unique one'
+            }
             return res.status(200).send({
-                message: 'user already applied',
+                message: message,
                 success: false
             });
         } else {
