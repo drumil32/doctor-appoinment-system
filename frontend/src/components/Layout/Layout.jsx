@@ -48,7 +48,7 @@ const Layout = ({ children, removeCookies }) => {
                     </div>
                     <div className="content">
                         <div className="header">
-                            <div className="header-content">
+                            <div className="header-content" style={{ cursor: 'pointer' }}>
                                 <Badge
                                     count={user && user.notifications.length}
                                     onClick={() => {

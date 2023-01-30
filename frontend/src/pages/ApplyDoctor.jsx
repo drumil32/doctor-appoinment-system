@@ -7,20 +7,20 @@ import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import axios from "axios";
 
 const ApplyDoctor = ({ cookies, removeCookies }) => {
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user } = useSelector(state => state.user)
 
     const handleFinish = async (values) => {
         const { token } = cookies;
         try {
-            dispath(showLoading());
+            dispatch(showLoading());
             const res = await axios.post('api/user/apply-doctor', { ...values, userId: user._id }, {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }
             });
-            dispath(hideLoading());
+            dispatch(hideLoading());
             if (!res.data.success) {
                 message.error(res.data.message);
             } else {
@@ -30,7 +30,7 @@ const ApplyDoctor = ({ cookies, removeCookies }) => {
             console.log(res.data)
         } catch (error) {
             console.log(error);
-            dispath(hideLoading());
+            dispatch(hideLoading());
             message.error('some thing went wrong');
         }
     }

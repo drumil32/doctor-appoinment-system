@@ -138,6 +138,7 @@ const getAllNotificationController = async (req, res) => {
         const notifications = user.notifications;
         seennotifications.push(...notifications);
         user.seennotifications = notifications;
+        user.notifications = []
         const updatedUser = await user.save();
         res.status(200).send({
             success: true,
@@ -154,4 +155,31 @@ const getAllNotificationController = async (req, res) => {
     }
 }
 
-module.exports = { loginController, registerController, getUserDataController, applyDoctorController, getAllNotificationController }
+const deleteAllNotificationController = async (req, res) => {
+    try {
+        const user = await userModel.findById({ _id: req.body.userId });
+        user.seennotifications = [];
+        const updatedUser = await user.save();
+        res.status(200).send({
+            success: true,
+            message: 'all notifactions marked as read',
+            user: updatedUser
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            error,
+            message: 'error while fetching notifications'
+        })
+    }
+}
+
+module.exports = {
+    loginController,
+    registerController,
+    getUserDataController,
+    applyDoctorController,
+    getAllNotificationController,
+    deleteAllNotificationController
+}
