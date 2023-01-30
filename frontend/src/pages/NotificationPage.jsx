@@ -64,35 +64,22 @@ const NotificationPage = ({ cookies, removeCookies }) => {
         }
     }
     return (
-        // <Layout removeCookies={removeCookies} >
-        //     <div>
-        //         {
-        //             0 === notifications.length ? <>no unseen notifications</> :
-        //                 notifications.map((notification) => {
-        //                     console.log(`${notification.name}`);
-        //                     return <p>{notification.data.name}</p>
-        //                 })
-        //         }
-        //         {
-        //             0 === seennotifications.length ? <>no seen notifications</> :
-        //                 seennotifications.map((notification) => {
-        //                     return <p>{notification.data.name}</p>
-        //                 })
-        //         }
-        //     </div>
-        // </Layout>
         <Layout removeCookies={removeCookies}>
             <h4 className="p-3 text-center">Notification Page</h4>
             <Tabs>
                 <Tabs.TabPane tab="unRead" key={0}>
-                    {
-                        user?.notifications.length !== 0 &&
-                        <div className="d-flex justify-content-end">
-                            <h4 className="p-2" onClick={handleMarkAllRead}>
-                                Mark All Read
-                            </h4>
-                        </div>
-                    }
+                    <div className="d-flex justify-content-end">
+                        {
+                            user?.notifications.length !== 0 ?
+                                <h4 className="p-2" onClick={handleMarkAllRead}>
+                                    Mark All Read
+                                </h4>
+                                :
+                                <h4 className="p-2">
+                                    no notifications
+                                </h4>
+                        }
+                    </div>
                     {
                         user?.notifications.map((notificationMgs, ind) => (
                             <div key={ind} className="card" style={{ cursor: "pointer" }}>
@@ -108,10 +95,18 @@ const NotificationPage = ({ cookies, removeCookies }) => {
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="Read" key={1}>
                     <div className="d-flex justify-content-end">
-                        <h4 className="p-2" onClick={handleDeleteAllRead}>
-                            Delete All Read
-                        </h4>
+                        {
+                            user?.seennotifications.length !== 0 ?
+                                <h4 className="p-2" onClick={handleDeleteAllRead}>
+                                    Delete All Read
+                                </h4>
+                                :
+                                <h4 className="p-2" >
+                                    no notifications
+                                </h4>
+                        }
                     </div>
+
                     {user?.seennotifications.map((notificationMgs, ind) => {
                         console.log(notificationMgs);
                         return (

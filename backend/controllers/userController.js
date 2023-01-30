@@ -140,6 +140,7 @@ const getAllNotificationController = async (req, res) => {
         user.seennotifications = notifications;
         user.notifications = []
         const updatedUser = await user.save();
+        updatedUser.password = undefined;
         res.status(200).send({
             success: true,
             message: 'all notifactions marked as read',
@@ -160,6 +161,7 @@ const deleteAllNotificationController = async (req, res) => {
         const user = await userModel.findById({ _id: req.body.userId });
         user.seennotifications = [];
         const updatedUser = await user.save();
+        updatedUser.password = undefined;
         res.status(200).send({
             success: true,
             message: 'all notifactions marked as read',

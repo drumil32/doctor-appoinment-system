@@ -20,15 +20,16 @@ router.post('/login', loginController);
 // REGISTER || post
 router.post('/register', registerController);
 
-// Auth || post
+// Auth || get
 router.get('/getUserData', authMiddleware, getUserDataController);
 
 // apply doctor || post
 router.post('/apply-doctor', authMiddleware, applyDoctorController);
 
-// notification Docotr || post
+// notification Docotr || get
 router.get('/get-all-notification', authMiddleware, getAllNotificationController);
 
+// delete all notifications || delete
 router.delete('/delete-all-notification', authMiddleware, deleteAllNotificationController);
 
 module.exports = router;
