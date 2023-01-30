@@ -93,33 +93,41 @@ const getUserDataController = async (req, res) => {
 const applyDoctorController = async (req, res) => {
     try {
         const user = req.body;
-        const checkDoctor = await doctorModel.findOne({ $or: [{ email: user.email }, { phone: user.phone }] });
+        const checkDoctor = await doctorModel.findOne({ $or: [{ userId: req.body.userId }, { email: user.email }, { phone: user.phone }] });
         if (checkDoctor) {
             return res.status(200).send({
-                message: 'User Already Exists',
+                message: 'user already applied',
                 success: false
             });
         } else {
-            const newDoctor = new doctorModel(user);
-            const obj = await newDoctor.save();
-            console.log(obj)
-            const adminUser = await userModel.findOne({ isAdmin: true });
-            console.log(adminUser)
-            const notifications = adminUser.notifications;
-            notifications.push({
-                type: 'apply-doctor-request',
-                message: `${newDoctor.firstName} ${newDoctor.lastName}`,
-                data: {
-                    doctorId: newDoctor._id,
-                    name: newDoctor.firstName + " " + newDoctor.lastName,
-                    onClickPath: '/admin/doctors'
-                }
-            });
-            await userModel.findByIdAndUpdate(adminUser._id, { notifications });
-            res.status(201).send({
-                success: true,
-                message: 'Doctor acount applied successfully'
-            });
+            const checkUser = await userModel.findOne({ _id: req.body.userId, isDoctor: true });
+            if (checkUser) {
+                return res.status(200).send({
+                    message: `user's application is already accepted`,
+                    success: false
+                });
+            } else {
+                const newDoctor = new doctorModel(user);
+                const obj = await newDoctor.save();
+                console.log(obj)
+                const adminUser = await userModel.findOne({ isAdmin: true });
+                console.log(adminUser)
+                const notifications = adminUser.notifications;
+                notifications.push({
+                    type: 'apply-doctor-request',
+                    message: `${newDoctor.firstName} ${newDoctor.lastName}`,
+                    data: {
+                        doctorId: newDoctor._id,
+                        name: newDoctor.firstName + " " + newDoctor.lastName,
+                        onClickPath: '/admin/doctors'
+                    }
+                });
+                await userModel.findByIdAndUpdate(adminUser._id, { notifications });
+                res.status(201).send({
+                    success: true,
+                    message: 'Doctor acount applied successfully'
+                });
+            }
         }
     } catch (error) {
         console.log(error);
