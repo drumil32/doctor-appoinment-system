@@ -13,7 +13,7 @@ const Users = ({ cookies, removeCookies }) => {
         const { token } = cookies;
         const fetchData = async () => {
             try {
-                const res = await axios.get('/api/admin/getAllUsers', {
+                const res = await axios.get('/api/admin//get-all-users', {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }

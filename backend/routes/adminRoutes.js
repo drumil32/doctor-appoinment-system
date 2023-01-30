@@ -4,7 +4,7 @@ const { getAllDoctorsController, getAllUsersController } = require('../controlle
 
 const router = express.Router();
 
-router.get('/getAllUsers', authMiddleware, getAllUsersController);
-router.get('/getAllDoctors', authMiddleware, getAllDoctorsController);
+router.get('/get-all-users', authMiddleware, getAllUsersController);
+router.get('/get-all-doctors', authMiddleware, getAllDoctorsController);
 
 module.exports = router;

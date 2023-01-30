@@ -16,7 +16,7 @@ const Doctors = ({ cookies, removeCookies }) => {
         const { token } = cookies;
         const fetchData = async () => {
             try {
-                const res = await axios.get('/api/admin/getAllDoctors', {
+                const res = await axios.get('/api/admin/get-all-doctors', {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }
