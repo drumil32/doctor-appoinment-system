@@ -3,11 +3,11 @@ const userModel = require('../models/userModels');
 
 const getAllUsersController = async (req, res) => {
     try {
-        const users = await userModel.find({});
+        const users = await userModel.find({}, { password: 0 });
         res.status(200).send({
             success: true,
             message: 'users data',
-            data: users
+            users
         })
     } catch (error) {
         res.status(500).send({
@@ -19,11 +19,11 @@ const getAllUsersController = async (req, res) => {
 
 const getAllDoctorsController = async (req, res) => {
     try {
-        const doctors = await doctorModel.find({});
+        const doctors = await doctorModel.find({}, { password: 0 });
         res.status(200).send({
             success: true,
             message: 'users data',
-            data: doctors
+            doctors
         })
     } catch (error) {
         res.status(500).send({
