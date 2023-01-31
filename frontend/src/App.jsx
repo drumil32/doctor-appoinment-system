@@ -17,6 +17,7 @@ import User from "./pages/admin/Users";
 import Doctors from "./pages/admin/Doctors";
 import Users from "./pages/admin/Users";
 import Profile from "./pages/doctor/Profile";
+import BookingPage from "./pages/doctor/BookingPage";
 
 const App = () => {
   const { loading } = useSelector(state => state.alerts)
@@ -79,6 +80,14 @@ const App = () => {
             element={
               <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
                 <Profile cookies={cookies} removeCookies={handleRemoveCookies} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/doctor/book-appointment/:doctorId"
+            element={
+              <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
+                <BookingPage cookies={cookies} removeCookies={handleRemoveCookies} />
               </ProtectedRoute>
             }
           />

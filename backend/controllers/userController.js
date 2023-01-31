@@ -212,6 +212,10 @@ const getAllDoctorController = async (req, res) => {
     }
 }
 
+const bookAppointmentController = async (req, res) => {
+
+}
+
 module.exports = {
     loginController,
     registerController,
@@ -220,4 +224,5 @@ module.exports = {
     getAllNotificationController,
     deleteAllNotificationController,
     getAllDoctorController,
+    bookAppointmentController
 }
