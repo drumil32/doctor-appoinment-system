@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/LayoutStyles.css";
-import { adminMenu, userMenu } from "./data";
+import { adminMenu, userMenu, doctorMenu } from "./data";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../redux/features/userSlice";
@@ -17,7 +17,13 @@ const Layout = ({ children, removeCookies }) => {
         navigate('/login');
     }
 
-    const sidebarMenu = user?.isAdmin ? adminMenu : userMenu;
+
+
+    const sidebarMenu = user?.isAdmin
+        ? adminMenu
+        : user?.isDoctor
+            ? doctorMenu
+            : userMenu;
     console.log(user)
     return (
         <>

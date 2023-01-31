@@ -16,6 +16,7 @@ import Doctor from "./pages/admin/Doctors";
 import User from "./pages/admin/Users";
 import Doctors from "./pages/admin/Doctors";
 import Users from "./pages/admin/Users";
+import Profile from "./pages/doctor/Profile";
 
 const App = () => {
   const { loading } = useSelector(state => state.alerts)
@@ -70,6 +71,14 @@ const App = () => {
             element={
               <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
                 <Users cookies={cookies} removeCookies={handleRemoveCookies} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/doctor/profile"
+            element={
+              <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
+                <Profile cookies={cookies} removeCookies={handleRemoveCookies} />
               </ProtectedRoute>
             }
           />
