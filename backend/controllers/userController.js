@@ -2,7 +2,8 @@ const userModel = require('../models/userModels');
 const doctorModel = require('../models/doctorModels');
 const appointmentModel = require('../models/appointmentModels');
 const bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const moment = require("moment");
 
 // login call back
 const loginController = async (req, res) => {
@@ -215,6 +216,8 @@ const getAllDoctorController = async (req, res) => {
 
 const bookAppointmentController = async (req, res) => {
     try {
+        req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
+        req.body.time = moment(req.body.time, "HH:mm").toISOString();
         req.body.status = 'pending';
         const newAppointment = new appointmentModel(req.body);
         await newAppointment.save();
@@ -239,6 +242,44 @@ const bookAppointmentController = async (req, res) => {
     }
 }
 
+const bookingAvailabilityController = async (req, res) => {
+    try {
+
+        const date = moment(req.body.date, "DD-MM-YY").toISOString();
+        const fromTime = moment(req.body.time, "HH:mm")
+            .subtract(1, "hours")
+            .toISOString();
+        const toTime = moment(req.body.time, "HH:mm").add(1, "hours").toISOString();
+        const doctorId = req.body.doctorId;
+        const appointments = await appointmentModel.find({
+            doctorId,
+            date,
+            time: {
+                $gte: fromTime,
+                $lte: toTime
+            }
+        });
+        if (appointments.length > 0) {
+            return res.status(200).send({
+                message: 'appointment on this time is already booked',
+                success: true
+            });
+        } else {
+            return res.status(200).send({
+                message: 'appointment on this time is available',
+                success: true,
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            error,
+            message: 'error while booking appointment'
+        })
+    }
+}
+
 module.exports = {
     loginController,
     registerController,
@@ -247,5 +288,6 @@ module.exports = {
     getAllNotificationController,
     deleteAllNotificationController,
     getAllDoctorController,
-    bookAppointmentController
+    bookAppointmentController,
+    bookingAvailabilityController
 }
