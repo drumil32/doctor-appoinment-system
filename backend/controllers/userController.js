@@ -244,11 +244,8 @@ const bookAppointmentController = async (req, res) => {
 
 const bookingAvailabilityController = async (req, res) => {
     try {
-
         const date = moment(req.body.date, "DD-MM-YY").toISOString();
-        const fromTime = moment(req.body.time, "HH:mm")
-            .subtract(1, "hours")
-            .toISOString();
+        const fromTime = moment(req.body.time, "HH:mm").subtract(1, "hours").toISOString();
         const toTime = moment(req.body.time, "HH:mm").add(1, "hours").toISOString();
         const doctorId = req.body.doctorId;
         const appointments = await appointmentModel.find({
@@ -268,8 +265,26 @@ const bookingAvailabilityController = async (req, res) => {
             return res.status(200).send({
                 message: 'appointment on this time is available',
                 success: true,
-            })
+            });
         }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            error,
+            message: 'error while booking appointment'
+        })
+    }
+}
+
+const userAppointmentController = async (req, res) => {
+    try {
+        const appointments = await appointmentModel.find({ userId: req.body.userId });
+        res.status(200).send({
+            success: true,
+            message: 'User appointment fetch successfully',
+            appointments
+        })
     } catch (error) {
         console.log(error);
         res.status(500).send({
@@ -289,5 +304,6 @@ module.exports = {
     deleteAllNotificationController,
     getAllDoctorController,
     bookAppointmentController,
-    bookingAvailabilityController
+    bookingAvailabilityController,
+    userAppointmentController
 }

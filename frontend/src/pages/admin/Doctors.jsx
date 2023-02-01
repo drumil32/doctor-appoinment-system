@@ -61,6 +61,7 @@ const Doctors = ({ cookies, removeCookies }) => {
             }
         }
         fetchData();
+        //eslint-disable-next-line
     }, []);
 
     const columns = [

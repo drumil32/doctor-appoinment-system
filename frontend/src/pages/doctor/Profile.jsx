@@ -3,7 +3,6 @@ import Layout from '../../components/Layout/Layout';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { hideLoading, showLoading } from '../../redux/features/alertSlice';
-import { useParams } from 'react-router-dom';
 import { Col, Form, Input, Row, TimePicker, message } from "antd";
 import moment from "moment";
 
@@ -68,6 +67,7 @@ const Profile = ({ cookies, removeCookies }) => {
             }
         }
         fetchData();
+        //eslint-disable-next-line
     }, []);
     return (
         <Layout removeCookies={removeCookies}>

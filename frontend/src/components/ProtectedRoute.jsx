@@ -38,6 +38,7 @@ const ProtectedRoute = ({ children, cookies, removeCookies }) => {
         }
         if (!user)
             getUser();
+        //eslint-disable-next-line
     }, [dispatch, navigate, removeCookies, token, user])
 
     if (token) {

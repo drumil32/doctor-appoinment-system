@@ -40,6 +40,7 @@ const Home = ({ cookies, removeCookies }) => {
             }
         }
         getDoctorData();
+        //eslint-disable-next-line
     }, [cookies])
 
     return (

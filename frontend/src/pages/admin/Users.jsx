@@ -32,6 +32,7 @@ const Users = ({ cookies, removeCookies }) => {
             }
         }
         fetchData();
+        //eslint-disable-next-line
     }, []);
 
     // antD table col

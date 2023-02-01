@@ -4,6 +4,12 @@ export const userMenu = [
         path: "/",
         icon: "fa-solid fa-house",
     },
+
+    {
+        name: "Appointments",
+        path: "/appointments",
+        icon: "fa-solid fa-list",
+    },
     {
         name: "Apply Doctor",
         path: "/apply-doctor",
@@ -48,7 +54,7 @@ export const doctorMenu = [
     },
     {
         name: "Appointments",
-        path: "/appointments",
+        path: "/doctor-appointments",
         icon: "fa-solid fa-list",
     },
     {
