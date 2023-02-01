@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react'
 import Layout from '../../components/Layout/Layout'
 import { hideLoading, showLoading } from '../../redux/features/alertSlice';
 import { DatePicker, TimePicker, message } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
 const BookingPage = ({ cookies, removeCookies }) => {
     const [doctor, setDoctor] = useState(null);
+    const { user } = useSelector(state => state.user);
     const dispatch = useDispatch();
-    const { doctorId } = useParams();
+    const params = useParams();
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
     const [isAvailable, setIsAvailable] = useState();
+
     // get user data
     useEffect(() => {
         const { token } = cookies;
@@ -22,7 +24,7 @@ const BookingPage = ({ cookies, removeCookies }) => {
                 dispatch(showLoading());
                 const res = await axios.post(
                     '/api/doctor/getDoctorById',
-                    { doctorId },
+                    { doctorId: params.doctorId },
                     {
                         headers: {
                             authorization: 'Bearer ' + token
@@ -47,6 +49,38 @@ const BookingPage = ({ cookies, removeCookies }) => {
     }, [cookies]);
 
     const handleBooking = async () => {
+        const { token } = cookies;
+        try {
+            dispatch(showLoading());
+            console.log(time);
+            const res = await axios.post(
+                '/api/user/book-appointment',
+                {
+                    doctorId: params.doctorId,
+                    doctorInfo: doctor,
+                    userInfo: user,
+                    date,
+                    time
+                },
+                {
+                    headers: {
+                        authorization: 'Bearer ' + token
+                    }
+                }
+            );
+            dispatch(hideLoading());
+            if (res.data.success) {
+                message.success(res.data.message);
+                setDoctor(res.data.doctor);
+                console.log(res.data.doctor);
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(hideLoading());
+            message.error('some thing went wrong');
+        }
 
     }
 

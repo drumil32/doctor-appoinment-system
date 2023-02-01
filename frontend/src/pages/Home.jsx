@@ -9,7 +9,7 @@ import DoctorList from '../components/DoctorList';
 const Home = ({ cookies, removeCookies }) => {
 
     const [doctors, setDoctors] = useState(null)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     // get user data
     useEffect(() => {
