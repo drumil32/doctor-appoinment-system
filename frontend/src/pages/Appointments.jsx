@@ -59,7 +59,7 @@ const Appointments = ({ removeCookies, cookies }) => {
 
     return (
         <Layout removeCookies={removeCookies}>
-            <h1>Appoinmtnets Lists</h1>
+            <h1>Appointment Lists</h1>
             <Table columns={columns} dataSource={appointments} />
         </Layout>
     )

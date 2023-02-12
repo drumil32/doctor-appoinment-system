@@ -52,7 +52,7 @@ const DoctorAppointments = ({ cookies, removeCookies }) => {
                 });
             if (res.data.success) {
                 message.success(res.data.message);
-                // window.r
+                window.location.reload();
             } else {
                 message.error(res.data.message);
             }
@@ -110,7 +110,7 @@ const DoctorAppointments = ({ cookies, removeCookies }) => {
 
     return (
         <Layout removeCookies={removeCookies}>
-            <h1>Appoinmtnets Lists</h1>
+            <h1>Appointment Lists</h1>
             <Table columns={columns} dataSource={appointments} />
         </Layout>
     )

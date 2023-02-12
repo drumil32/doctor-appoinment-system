@@ -13,7 +13,7 @@ const Users = ({ cookies, removeCookies }) => {
         const { token } = cookies;
         const fetchData = async () => {
             try {
-                const res = await axios.get('/api/admin//get-all-users', {
+                const res = await axios.get('/api/admin/get-all-users', {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }
@@ -50,21 +50,21 @@ const Users = ({ cookies, removeCookies }) => {
             dataIndex: "isDoctor",
             render: (text, record) => <span>{record.isDoctor ? "Yes" : "No"}</span>,
         },
-        {
-            title: "Actions",
-            dataIndex: "actions",
-            render: (text, record) => (
-                <div className="d-flex">
-                    <button className="btn btn-danger">Block</button>
-                </div>
-            ),
-        },
+        // if admin press the block button then that particular user will be blocked
+        // {
+        //     title: "Actions",
+        //     dataIndex: "actions",
+        //     render: (text, record) => (
+        //         <div className="d-flex">
+        //             <button className="btn btn-danger">Block</button>
+        //         </div>
+        //     ),
+        // },
     ];
 
 
     return (
         <Layout removeCookies={removeCookies}>
-
             <h1 className="text-center m-2">Users List</h1>
             <Table columns={columns} dataSource={userList} />
         </Layout>
