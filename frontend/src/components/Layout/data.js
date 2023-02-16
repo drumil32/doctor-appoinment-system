@@ -14,6 +14,11 @@ export const userMenu = [
         name: "Apply Doctor",
         path: "/apply-doctor",
         icon: "fa-solid fa-user-doctor",
+    },
+    {
+        name: "Diabetes Predictor",
+        path: "/diabetes-predictor",
+        icon: "fa-solid fa-user-doctor",
     }
 ];
 
@@ -34,6 +39,11 @@ export const adminMenu = [
         path: "/admin/users",
         icon: "fa-solid fa-user",
     },
+    {
+        name: "Diabetes Predictor",
+        path: "/diabetes-predictor",
+        icon: "fa-solid fa-user-doctor",
+    }
 ];
 
 export const doctorMenu = [
@@ -52,4 +62,9 @@ export const doctorMenu = [
         path: `/doctor/profile`,
         icon: "fa-solid fa-user",
     },
+    {
+        name: "Diabetes Predictor",
+        path: "/diabetes-predictor",
+        icon: "fa-solid fa-user-doctor",
+    }
 ];

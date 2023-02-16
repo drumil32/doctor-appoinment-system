@@ -18,6 +18,9 @@ import Profile from "./pages/doctor/Profile";
 import BookingPage from "./pages/doctor/BookingPage";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
+import { useEffect } from "react";
+import axios from "axios";
+import DiabetesPredictor from "./pages/DiabetesPredictor";
 
 const App = () => {
   const { loading } = useSelector(state => state.alerts)
@@ -48,6 +51,14 @@ const App = () => {
             element={
               <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
                 <ApplyDoctor cookies={cookies} removeCookies={handleRemoveCookies} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/diabetes-predictor'
+            element={
+              <ProtectedRoute cookies={cookies} removeCookies={handleRemoveCookies}>
+                <DiabetesPredictor cookies={cookies} removeCookies={handleRemoveCookies} />
               </ProtectedRoute>
             }
           />
